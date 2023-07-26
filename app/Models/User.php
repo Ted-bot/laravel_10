@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -67,5 +68,24 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function setAvatarAttribute($value)
+    {
+       return $this->attributes['avatar'] = asset($value);
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return $this->attributes['avatar'] = asset($value);
+    }
+
+    public function userHasRole(string $role_name): bool
+    {
+        foreach($this->roles as $role){
+            if(Str::lower($role_name) == Str::lower($role->name))
+            return true;
+        }
+         return false;
     }
 }

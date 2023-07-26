@@ -5,7 +5,7 @@
                {{ Auth::user()->name }}
             @endif
         </span>
-        <img class="img-profile rounded-circle" src="{{ (Auth::user()->avatar === true ? Auth::user()->avatar : 'https://source.unsplash.com/QAB-WJcbgJk/60x60')}}">
+        <img class="img-profile rounded-circle" src="{{ (Str::after(Auth::user()->avatar, 'localhost/') ? Auth::user()->avatar : 'https://source.unsplash.com/QAB-WJcbgJk/60x60')}}">
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

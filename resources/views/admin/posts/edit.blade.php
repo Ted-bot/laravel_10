@@ -20,9 +20,15 @@
             <label for="title">Title</label>
             <input type="text"
                     name="title"
-                    class="form-control"
+                    class="form-control {{ $errors->has('title') ? 'is-invalid' : ''}}"
                     placeholder="Enter .."
                     value="{{ $post->title }}">
+
+                    @foreach($errors->get('title') as $message)
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @endforeach
         </div>
         <div class="form-group">
 
@@ -34,18 +40,30 @@
             <label for="file">Image</label>
             <input type="file"
                     name="post_image"
-                    class="file"
+                    class="file {{ $errors->has('post_image') ? 'is-invalid' : ''}}"
                     id="post_image">
+
+                    @foreach($errors->get('post_image') as $message)
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @endforeach
         </div>
         <div class="form-group">
             <label for="body">Text</label>
             <textarea type="text"
                     name="body"
-                    class="form-control"
+                    class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}"
                     id="body"
                     cols="30"
                     rows="10">{{ $post->body }}
             </textarea>
+
+            @foreach($errors->get('body') as $message)
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @endforeach
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>

@@ -71,7 +71,7 @@ class PostController extends Controller
 
         $post->save();
 
-        $request->session()->flash('message-post-created', "Post {$post->id} has been created !");
+        session()->flash('message-post-created', "Post {$post->id} has been created !");
 
         return redirect()->route('post.index');
     }
@@ -105,7 +105,7 @@ class PostController extends Controller
             $newImageName = $imageName . '.' . $ext;
             $path = 'images';
 
-            $this->deleteImage($post);
+            $this->deleteImage($post->post_image);
             $request->file('post_image')->move($path,$newImageName);
 
             $post->post_image = $path . '/' . $newImageName;
@@ -113,7 +113,7 @@ class PostController extends Controller
 
         $post->save();
 
-        $request->session()->flash('message-post-updated', "Post has been updated !");
+        session()->flash('message-post-updated', "Post has been updated !");
 
         return redirect()->route('post.index');
     }
@@ -123,23 +123,25 @@ class PostController extends Controller
 
         $this->authorize('delete', $post);
 
-        $this->deleteImage($post);
+        $this->deleteImage($post->post_image);
 
-        $request->session()->flash('message-post-deleted', "Post {$post->id} has been deleted !");
+        session()->flash('message-post-deleted', "Post {$post->id} has been deleted !");
 
-        $post->delete($post);
+        $post->delete();
 
         return back();
     }
 
-    public function deleteImage(Post $post): void
+    public function deleteImage($post)
     {
         //delete old image
         $path = public_path('images');
-        $delete_old_file_name = $path .'/' . str_replace('http://localhost/images/', '', $post->post_image);
+        $delete_old_file_name = $path .'/' . str_replace('http://localhost/images/', '', $post);
 
         if(File::exists($delete_old_file_name)){
             File::delete($delete_old_file_name);
+            return true;
         }
+        return false;
     }
 }
