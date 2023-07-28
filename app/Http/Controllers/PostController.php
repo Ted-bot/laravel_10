@@ -96,7 +96,7 @@ class PostController extends Controller
 
         if($request->file('post_image') !== null){
 
-            $post->post_image = $request->post_image;
+            $this->deleteImage($post->post_image);
 
             $input_file = $request->post_image;
             $fileName = $request->file('post_image')->hashName();
@@ -105,7 +105,8 @@ class PostController extends Controller
             $newImageName = $imageName . '.' . $ext;
             $path = 'images';
 
-            $this->deleteImage($post->post_image);
+            $post->post_image = $newImageName;
+
             $request->file('post_image')->move($path,$newImageName);
 
             $post->post_image = $path . '/' . $newImageName;
@@ -118,7 +119,7 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function destroy(Post $post, Request $request)
+    public function destroy(Post $post)
     {
 
         $this->authorize('delete', $post);
@@ -132,11 +133,11 @@ class PostController extends Controller
         return back();
     }
 
-    public function deleteImage($post)
+    public function deleteImage($image)
     {
         //delete old image
         $path = public_path('images');
-        $delete_old_file_name = $path .'/' . str_replace('http://localhost/images/', '', $post);
+        $delete_old_file_name = $path .'/' . str_replace('http://localhost/images/', '', $image);
 
         if(File::exists($delete_old_file_name)){
             File::delete($delete_old_file_name);
