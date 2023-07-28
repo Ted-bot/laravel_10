@@ -2,31 +2,31 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::middleware('auth')->group(function(){
-Route::controller(PostController::class)
+Route::controller(UserController::class)
 ->middleware('auth')
 ->prefix('admin/users')
-->name('user')->group(function() {
+->group(function() {
 
-    Route::put('/{user}/update', 'App\Http\Controllers\UserController@update')->name('profile.update');
+    Route::put('/{user}/update', 'update')->name('user.profile.update');
 
-    Route::delete('/{user}/destroy', 'App\Http\Controllers\UserController@destroy')->name('destroy');
+    Route::delete('/{user}/destroy', 'destroy')->name('user.destroy');
 });
 
-// Route::middleware(['role:admin', 'auth'])->group(function(){
-Route::controller(PostController::class)
+Route::controller(UserController::class)
 ->middleware('auth')
 ->prefix('admin/users')
-->name('user')->group(function() {
+->group(function() {
 
-    Route::get('/', 'App\Http\Controllers\UserController@index')->name('index');
+    Route::get('/', 'index')->name('user.index');
+
+    Route::put('/{user}/attach', 'attach')->name('user.role.attach');
+    Route::put('/{user}/Detach', 'detach')->name('user.role.detach');
 
 });
 
-// Route::middleware(['auth', 'can:view,user'])->group(function(){
-Route::controller(PostController::class)
-->middleware('auth')
+Route::controller(UserController::class)
+->middleware(['can:view,user'])
 ->prefix('admin/users')
-->name('user')->group(function() {
-    Route::get('/{user}/profile', 'App\Http\Controllers\UserController@show')->name('profile.show');
+->group(function() {
+    Route::get('/{user}/profile', 'show')->name('user.profile.show');
 });

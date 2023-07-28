@@ -20,6 +20,9 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Users</h6>
+            </div>
             <div class="card-body">
                 <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
                     <thead>
@@ -49,7 +52,11 @@
 
                         <tr>
                             <td>{{ $user->id }} </td>
-                            <td>{{ $user->username }} </td>
+                            <td>
+                                <a href="{{ route('user.profile.show', $user->id) }}">
+                                    {{ $user->username }}
+                                </a>
+                            </td>
                             <td>
                                 <img height=60px src="{{ $user->avatar }}" alt="">
                             </td>

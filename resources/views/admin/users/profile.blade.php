@@ -8,6 +8,34 @@
            <div class="alert alert-success" role="alert">{{ session()->get('profile-updated') }}</div>
     @endif
 
+    @if(session('user-attach-succes'))
+
+        <div class="alert alert-success">
+            {{ session('user-attach-succes') }}
+        </div>
+
+    @elseif(session('user-attach-failure'))
+
+        <div class="alert alert-danger">
+            {{ session('user-attach-failure') }}
+        </div>
+
+    @endif
+
+    @if(session('user-detach-succes'))
+
+        <div class="alert alert-warning">
+            {{ session('user-detach-succes') }}
+        </div>
+
+    @elseif(session('user-detach-failure'))
+
+        <div class="alert alert-danger">
+            {{ session('user-detach-failure') }}
+        </div>
+
+    @endif
+
     <div class="row">
         <div class="col-sm-6">
 
@@ -112,6 +140,84 @@
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+        </div>
+    </div>
+
+    <br><hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Roles</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Options</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Slug</th>
+                                    <th>Attach</th>
+                                    <th>Detach</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Options</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Slug</th>
+                                    <th>Attach</th>
+                                    <th>Detach</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @foreach($roles as $role)
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox"
+                                            @foreach ($user->roles as $user_role)
+                                                @if ($user_role->slug == $role->slug)
+                                                    checked
+                                                @endif
+                                            @endforeach
+                                        >
+                                    </td>
+                                    <td>{{ $role->id }} </td>
+                                    <td>{{ $role->name }} </td>
+                                    <td>{{ $role->slug }} </td>
+                                    <td>
+                                        <form method="POST" action="{{ route('user.role.attach', $user) }}">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="role" value="{{ $role->id }}">
+                                            <button class="btn btn-primary">Attach</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ route('user.role.detach', $user) }}">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="role" value="{{ $role->id }}">
+                                            <button class="btn btn-danger">Detach</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 

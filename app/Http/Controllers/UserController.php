@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Http\Controllers\PostController;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -20,7 +21,10 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('admin.users.profile', compact('user'));
+        return view('admin.users.profile', [
+            'user' => $user,
+            'roles' => Role::all()
+        ]);
     }
 
     public function update(User $user, Request $request)
@@ -80,4 +84,46 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function attach(User $user)
+    {
+        $role_id = request('role');
+
+        $role = Role::query()->find($role_id);
+
+        $user->roles()->attach(request('role'));
+
+        $attch_succes = $user->roles()->where('role_id', request('role'));
+
+        if($attch_succes){
+            session()->flash('user-attach-succes', "Attached role \"{$role->slug}\" to user {$user->name} successfully!");
+        } else {
+            session()->flash('user-attach-failure', "Attaching role \"{$role->slug}\" to user {$user->name} has failed!");
+        }
+
+        return back();
+
+    }
+
+    public function detach(User $user)
+    {
+
+        $role_id = request('role');
+
+        $role = Role::query()->find($role_id);
+
+        $user->roles()->detach(request('role'));
+
+        $detach_succes = $user->roles()->where('role_id', request('role'));
+
+        if($detach_succes){
+            session()->flash('user-detach-succes', "Role \"{$role->slug}\" has been detached from user {$user->name}!");
+        } else {
+            session()->flash('user-detach-failure', "role \"{$role->slug}\" has not been detached from user {$user->name}!");
+        }
+
+        return back();
+
+    }
+
 }

@@ -2,12 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-// Route::middleware('auth')->group(function(){
-Route::controller(PostController::class)
+Route::controller(AdminsController::class)
 ->middleware('auth')
-->name('admin')->group(function() {
+->group(function() {
 
-    Route::get('/admin', 'App\Http\Controllers\AdminsController@index')->name('admin.index');
+    Route::get('/admin', 'index')->name('admin.index');
 
 });
