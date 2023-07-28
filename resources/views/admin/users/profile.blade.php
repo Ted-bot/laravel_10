@@ -197,7 +197,15 @@
                                             @method('PUT')
 
                                             <input type="hidden" name="role" value="{{ $role->id }}">
-                                            <button class="btn btn-primary">Attach</button>
+                                            <button
+                                                type="submit"
+                                                class="btn btn-primary"
+                                                @if ($user->roles->contains($role))
+                                                disabled
+                                                @endif
+                                                >
+                                                Attach
+                                            </button>
                                         </form>
                                     </td>
                                     <td>
@@ -206,7 +214,15 @@
                                             @method('PUT')
 
                                             <input type="hidden" name="role" value="{{ $role->id }}">
-                                            <button class="btn btn-danger">Detach</button>
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger"
+                                                @if (!$user->roles->contains($role))
+                                                disabled
+                                                @endif
+                                                >
+                                                Detach
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
