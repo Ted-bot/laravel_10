@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminsController;
 
 Route::controller(AdminsController::class)
 ->middleware('auth')

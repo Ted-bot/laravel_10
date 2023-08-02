@@ -22,29 +22,5 @@ Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/post/{post}', 'App\Http\Controllers\PostController@show')->name('post');
 
 Route::middleware('auth')->group(function(){
-    Route::get('/admin', 'App\Http\Controllers\AdminsController@index')->name('admin.index');
-    Route::get('/admin/posts/', 'App\Http\Controllers\PostController@index')->name('post.index');
-    Route::get('/admin/posts/create', 'App\Http\Controllers\PostController@create')->name('post.create');
-    Route::get('/admin/posts/{post}/edit', 'App\Http\Controllers\PostController@edit')->name('post.edit');
-
-    Route::put('/admin/users/{user}/update', 'App\Http\Controllers\UserController@update')->name('user.profile.update');
-
-    Route::post('/admin/posts', 'App\Http\Controllers\PostController@store')->name('post.store');
-
-    Route::patch('/admin/posts/{post}/update', 'App\Http\Controllers\PostController@update')->name('post.update');
-
-    Route::delete('/admin/posts/{post}/destroy', 'App\Http\Controllers\PostController@destroy')->name('post.destroy');
-    Route::delete('/admin/users/{post}/destroy', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
-
     Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
-});
-
-Route::middleware(['role:admin', 'auth'])->group(function(){
-
-    Route::get('/admin/users', 'App\Http\Controllers\UserController@index')->name('users.index');
-
-});
-
-Route::middleware(['auth', 'can:view,user'])->group(function(){
-    Route::get('/admin/users/{user}/profile', 'App\Http\Controllers\UserController@show')->name('user.profile.show');
 });

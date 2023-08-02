@@ -145,6 +145,10 @@
 
     <br><hr>
 
+    @if (auth()->user()->roles() === 'admin')
+        <h3>Hello There</h3>
+    @endif
+
     <div class="row">
         <div class="col-sm-12">
 

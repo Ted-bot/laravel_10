@@ -63,13 +63,13 @@
                             <td>{{ $user->name }} </td>
                             <td>{{ $user->created_at }} </td>
                             <td>{{ $user->updated_at->diffForHumans() }} </td>
-                            <th>
+                            <td>
                                 <form method="POST" action="{{ route('user.destroy', $user->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
-                            </th>
+                            </td>
                         </tr>
                         @endforeach
 

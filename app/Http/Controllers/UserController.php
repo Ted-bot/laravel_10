@@ -21,10 +21,9 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('admin.users.profile', [
-            'user' => $user,
-            'roles' => Role::all()
-        ]);
+        $roles = Role::all();
+
+        return view('admin.users.profile', compact(['user','roles']));
     }
 
     public function update(User $user, Request $request)

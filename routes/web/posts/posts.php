@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 Route::controller(PostController::class)
-    ->middleware('auth')
-    ->prefix('admin/posts')
     ->group(function() {
 
         Route::get('/', 'index')->name('post.index');
