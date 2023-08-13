@@ -8,7 +8,7 @@
         <!-- Author -->
         <p class="lead">
         by
-        <a href="#">{{ $post->user->name }}</a>
+        <a href="#">{{ $post->user->name ?? 'unknown' }}</a>
         </p>
 
         <hr>

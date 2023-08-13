@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
+use App\Notifications\RegisteredUserNotification;
 
 class HomeController extends Controller
 {
@@ -27,5 +29,4 @@ class HomeController extends Controller
 
         return view('home', compact('posts'));
     }
-
 }

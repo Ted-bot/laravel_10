@@ -69,7 +69,7 @@ class RegisterController extends Controller
             'username' => ucfirst(strtolower($data['username'])),
             'name' => ucfirst(strtolower($data['name'])),
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
         ]);
 
         return redirect()->route('post.index');
