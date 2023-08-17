@@ -6,23 +6,11 @@ use Exception;
 
 class ClassNotFoundByObserverTraitException extends Exception
 {
-    private string $pathError;
-    private string $observerFileName;
+    protected string $customeMessage;
+    protected int $customeCode;
 
-    public function __construct(string $observerFileName, string $pathError)
+    public function __construct(string $customMessage, string $customeCode)
     {
-        parent::__construct();
-
-        $this->observerFileName = $observerFileName;
-        $this->pathError = $pathError;
+        parent::__construct($customMessage, $customeCode);
     }
-
-    public function context(): array
-    {
-        return [
-            'path_error' => $this->pathError,
-            'not_found' => $this->observerFileName
-        ];
-    }
-
 }

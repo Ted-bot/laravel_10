@@ -11,14 +11,13 @@ trait Observable
 {
     public static function bootObservable()
     {
-            // $observer = '\\App\\Observers\\' . class_basename(static::class) . 'Observer';
-            $observer = '\\App\\' . class_basename(static::class) . 'Observer';
-            $currentFileName = __FILE__;
+            $observer = '\\App\\Observers\\' . class_basename(static::class) . 'Observer';
 
             if(!class_exists($observer)){
-                throw new ClassNotFoundByObserverTraitException($observer, $currentFileName);
+                $messageError = 'Class not found: ' . $observer;
+                throw new ClassNotFoundByObserverTraitException($messageError, 404);
+            } else {
+                (new static)->registerObserver($observer);
             }
-
-            (new static)->registerObserver($observer);
     }
 }
