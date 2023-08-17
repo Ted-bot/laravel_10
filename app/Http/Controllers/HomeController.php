@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\RegisteredUserNotification;
+use App\Exceptions\ClassNotFoundByObserverTraitException;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $observer = '\\App\\APP\\BBObserver';
+        $currentFileName = __FILE__;
+
         $posts = Post::all();
 
         return view('home', compact('posts'));

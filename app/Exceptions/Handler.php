@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Exceptions\ClassNotFoundByObserverTraitException;
 
 
 class Handler extends ExceptionHandler
@@ -25,21 +26,9 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-        //
+
+        $this->renderable(function (ClassNotFoundByObserverTraitException $e, $request) {
+            return response()->view('errors.404-class-not-found-by-observer', compact('e'), 404);
         });
     }
-
-    protected function buildContext(Throwable $e): array
-        {
-            return [
-                'exception' => [
-                    'origin' => $e,
-                    'context' => [
-                        'common' => $this->context(),
-                        'specific' => $this->exceptionContext($e),
-                    ],
-                ],
-            ];
-        }
 }
