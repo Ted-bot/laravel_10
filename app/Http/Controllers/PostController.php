@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -27,13 +28,16 @@ class PostController extends Controller
     {
         $this->authorize('create', Post::class);
 
-        return view('admin.posts.create',);
+        $categories = Category::all();
+
+        return view('admin.posts.create', compact('categories'));
     }
 
     public function edit(Post $post)
     {
+        $categories = Category::all();
 
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact(['post', 'categories']));
     }
 
     public function store(Request $request)
@@ -45,7 +49,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|min:3|max:100',
             'post_image' => 'nullable|file',
-            'body' => 'required'
+            'body' => 'required',
+            'category_id' => 'nullable'
         ]);
 
         $post = new Post();
@@ -53,6 +58,7 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->category_id = $request->category_id;
 
         if($request->post_image){
             $input_file = $request->post_image;
@@ -68,6 +74,9 @@ class PostController extends Controller
             $post->post_image = $path . '/' . $newImageName;
         }
 
+        if(is_integer($post->category_id)){
+            $post->category()->associate($post->category_id);
+        }
         $post->save();
 
         session()->flash('message-post-created', "Post {$post->id} has been created !");
@@ -87,10 +96,12 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|min:3|max:100',
             'post_image' => 'nullable|file',
-            'body' => 'required'
+            'body' => 'required',
+            'category_id' => 'nullable'
         ]);
 
         $post->title = $request->title;
+        $post->category_id = $request->category_id;
         $post->body = $request->body;
 
         if($request->file('post_image') !== null){
@@ -109,6 +120,10 @@ class PostController extends Controller
             $request->file('post_image')->move($path,$newImageName);
 
             $post->post_image = $path . '/' . $newImageName;
+        }
+
+        if($post->category_id != null){
+            $post->category()->associate($post->category_id);
         }
 
         $post->save();

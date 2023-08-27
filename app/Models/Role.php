@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Classes\Role as RoleName;
 class Role extends Model
 {
     use HasFactory;
@@ -22,14 +21,5 @@ class Role extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
-    }
-
-    public function isAdmin()
-    {
-        if($this->role->name == RoleName::ADMIN)
-        {
-            return true;
-        }
-        return false;
     }
 }
