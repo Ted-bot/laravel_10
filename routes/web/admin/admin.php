@@ -11,6 +11,8 @@ Route::controller(AdminsController::class)
 
     Route::resource('admin/categories', 'AdminCategoriesController');
 
+    Route::resource('/admin/comments', 'PostCommentsController');
+    Route::resource('/admin/comments/replies', 'PostCommentsController');
 });
 
 
