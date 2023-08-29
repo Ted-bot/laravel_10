@@ -61,6 +61,7 @@
             @if(auth()->user()->userHasRole('Admin'))
 
                 <x-admin.sidebar-nav.admin-sidebar-users-links></x-admin-sidebar-users-links>
+                <x-admin.sidebar-nav.admin-sidebar-categories-links></x-admin-sidebar-categories-links>
                 <x-admin.sidebar-nav.authorization-links></x-admin.sidebar-nav.authorization-links>
 
             @endif

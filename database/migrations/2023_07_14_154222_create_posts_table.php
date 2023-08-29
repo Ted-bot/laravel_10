@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constraint()->onDelete('cascade')->nullable();
             $table->string('title')->nullable();
+            $table->foreignId('category_id')->constraint()->onDelete('cascade')->nullable();
             $table->text('post_image')->nullable();
             $table->text('body')->nullable();
             $table->timestamps();

@@ -9,4 +9,8 @@ Route::controller(AdminsController::class)
 
     Route::get('/admin', 'index')->name('admin.index');
 
+    Route::resource('admin/categories', 'AdminCategoriesController');
+
 });
+
+

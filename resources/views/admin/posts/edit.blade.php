@@ -49,6 +49,19 @@
                     </span>
                 @endforeach
         </div>
+
+        <div class="form-group">
+            <label for="category_id">Choose Category:</label><br>
+            <select name="category_id" id="category_id">
+                <option value="">None</option>
+
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="body">Text</label>
             <textarea type="text"

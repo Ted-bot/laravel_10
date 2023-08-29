@@ -23,6 +23,7 @@
                       <th>Id</th>
                       <th>Owner</th>
                       <th>Title</th>
+                      <th>Category</th>
                       <th>Image</th>
                       <th>Posted at</th>
                       <th>Updated at</th>
@@ -34,6 +35,7 @@
                         <th>Id</th>
                         <th>Owner</th>
                         <th>Title</th>
+                        <th>Category</th>
                         <th>Image</th>
                         <th>Posted at</th>
                         <th>Updated at</th>
@@ -49,6 +51,7 @@
                             <td>{{ $post->id }}</td>
                             <td>{{ $post->user->{"name"} ?? '' }}</td>
                             <td><a href="{{ route('post.edit', $post->id) }}">{{ $post->title }}</a></td>
+                            <td>{{ $post->category->name ?? '' }}</td>
                             <td>
                                 <img height="40px" width="60px" src="{{ $post->post_image }}" alt="">
                             </td>
