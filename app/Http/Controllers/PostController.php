@@ -75,7 +75,7 @@ class PostController extends Controller
         }
 
         if(is_integer($post->category_id)){
-            $post->category()->associate($post->category_id);
+            $post->categories()->attach($post->category_id);
         }
         $post->save();
 
@@ -123,7 +123,7 @@ class PostController extends Controller
         }
 
         if($post->category_id != null){
-            $post->category()->associate($post->category_id);
+            $post->categories()->attach($post->category_id);
         }
 
         $post->save();
@@ -149,7 +149,6 @@ class PostController extends Controller
 
     public function deleteImage($image)
     {
-        //delete old image
         $path = public_path('images');
         $delete_old_file_name = $path .'/' . str_replace('http://localhost/images/', '', $image);
 
