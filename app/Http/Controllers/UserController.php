@@ -41,7 +41,14 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password ?? $request->password;
+
+        if($request->filled('password')){
+            $request->merge(['password' => bcrypt($request->password)]);
+        }
+
+		if (!$request->password) {
+	        unset($request['password']);
+		}
 
         if ($request->hasFile('avatar')) {
 

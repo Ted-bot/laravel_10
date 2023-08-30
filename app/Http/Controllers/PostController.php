@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\Category;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -18,10 +19,11 @@ class PostController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show(int $id)
     {
-        Post::findOrFail($post->id);
-        return view('blog-post', compact('post'));
+        $post = Post::findOrFail($id);
+        $comments = Comment::query()->where('post_id', $id)->get();
+        return view('admin.posts.show', compact(['post', 'comments']));
     }
 
     public function create()

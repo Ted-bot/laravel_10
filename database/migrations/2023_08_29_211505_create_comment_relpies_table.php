@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('body');
             $table->timestamps();
 
-            $table->foreign('comment_id')->reference('id')->on('comments')->onDelete('casade');
+            $table->foreign('comment_id')->reference('id')->on('comments')->onDelete('cascade');
         });
     }
 

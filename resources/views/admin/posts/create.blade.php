@@ -66,10 +66,10 @@
             </textarea>
 
             @foreach($errors->get('body') as $message)
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @endforeach
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @endforeach
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>

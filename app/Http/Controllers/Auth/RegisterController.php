@@ -68,6 +68,7 @@ class RegisterController extends Controller
         return User::create([
             'username' => ucfirst(strtolower($data['username'])),
             'name' => ucfirst(strtolower($data['name'])),
+            'avatar' => fake()->imageUrl(),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

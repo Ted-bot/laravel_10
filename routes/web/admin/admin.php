@@ -9,10 +9,10 @@ Route::controller(AdminsController::class)
 
     Route::get('/admin', 'index')->name('admin.index');
 
-    Route::resource('admin/categories', 'AdminCategoriesController');
-
-    Route::resource('/admin/comments', 'PostCommentsController');
-    Route::resource('/admin/comments/replies', 'PostCommentsController');
 });
 
+Route::resource('admin/categories', 'AdminCategoriesController');
+
+Route::resource('/admin/comments', 'PostCommentsController');
+Route::resource('/admin/comments/replies', 'PostCommentsController');
 

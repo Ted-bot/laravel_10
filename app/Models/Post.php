@@ -16,7 +16,7 @@ class Post extends Model
         'user_id',
         'title',
         'post_image',
-        'body'
+        'body',
     ];
 
     public function user()
@@ -37,5 +37,10 @@ class Post extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_post');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comments');
     }
 }
