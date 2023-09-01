@@ -27,14 +27,12 @@
   @endforeach
 
   <!-- Pagination -->
-  <ul class="pagination justify-content-center mb-4">
-    <li class="page-item">
-      <a class="page-link" href="#">&larr; Older</a>
-    </li>
-    <li class="page-item disabled">
-      <a class="page-link" href="#">Newer &rarr;</a>
-    </li>
-  </ul>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-5 pagination-wrapper">
+
+        {{ $posts->links('vendor.pagination.custom') }}
+    </div>
+  </div>
 
 @endsection
 

@@ -29,7 +29,7 @@ class HomeController extends Controller
         $observer = '\\App\\APP\\BBObserver';
         $currentFileName = __FILE__;
 
-        $posts = Post::all();
+        $posts = Post::paginate(10);
 
         return view('home', compact('posts'));
     }
