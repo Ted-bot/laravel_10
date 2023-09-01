@@ -19,10 +19,10 @@ class PostController extends Controller
     }
 
 
-    public function show(int $id)
+    public function show($id)
     {
         $post = Post::findOrFail($id);
-        $comments = Comment::query()->where('post_id', $id)->get();
+        $comments = $post->comments;
         return view('admin.posts.show', compact(['post', 'comments']));
     }
 
@@ -137,7 +137,6 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-
         $this->authorize('delete', $post);
 
         $this->deleteImage($post->post_image);

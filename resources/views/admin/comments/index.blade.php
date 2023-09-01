@@ -27,6 +27,7 @@
                 <td>{{ $comment->body }}</td>
                 <td>{{ $comment->created_at->diffForHumans() }}</td>
                 <td><a href="{{ route('post.show', $comment->post->id) }}">View Post</a></td>
+                <td><a href="{{ route('replies.show', $comment->id) }}">View Replies</a></td>
                 <td>
                     @if($comment->is_active == 1)
 

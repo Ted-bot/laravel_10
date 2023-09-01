@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
 
-class CommentRelpy extends Model
+class CommentReply extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,13 @@ class CommentRelpy extends Model
         'author',
         'email',
         'body',
+        'photo',
         'is_active'
     ];
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class);
+        return $this->belongsTo(Comment::class, 'comment_id', 'post_id');
     }
 
 }

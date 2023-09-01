@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comment_relpies', function (Blueprint $table) {
+        Schema::create('comment_replies', function (Blueprint $table) {
             $table->id();
-            $table->integer('post_id')->index();
+            // $table->integer('comment_id');
+            $table->foreignId('comment_id')->constraint()->onDelete('cascade');
             $table->integer('is_active')->default(0);
             $table->string('author');
+            $table->string('photo')->nullable;
             $table->string('email');
             $table->text('body');
             $table->timestamps();
 
-            $table->foreign('comment_id')->reference('id')->on('comments')->onDelete('cascade');
+            // $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comment_relpies');
+        Schema::dropIfExists('comment_replies');
     }
 };

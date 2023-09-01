@@ -28,7 +28,7 @@
 
         @if (session()->has('message-post-created'))
             <div class="alert alert-success" role="alert">{{ session()->get('message-post-created') }}</div>
-    @endif
+        @endif
 
         <!-- Comments Form -->
         <div class="card my-4">
@@ -64,29 +64,115 @@
                 <!-- Single Comment -->
                 @if ($comment->is_active === 1)
                     <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle" width="50" height="50" src="{{ $comment->photo }}" alt="">
+                        <img class="d-flex mr-3 rounded-circle" height="50" src="{{ $comment->photo }}" alt="">
                         <div class="media-body">
+                            <h5 class="mt-0">{{ $comment->author }}
+                                <small class="text-secondary">{{ $comment->created_at->diffForHumans() }}</small>
+                            </h5>
+                            <p>{{ $comment->body }}</p>
 
-                            <h5 class="mt-0">{{ $comment->author }}</h5>
-                            {{ $comment->body }}
+                            <div class="comment-reply-container">
+                                <button class="toggle-comment-reply btn btn-primary float-right">Reply</button>
+
+                                <div class="comment-reply col-sm-10">
+                                    <!--  nested comment form  -->
+                                    <form action="{{ route('replies.createReply') }}" method="POST">
+                                        @csrf
+                                        @method('POST')
+
+                                        <input type="hidden" name="comment_id" value={{ $post->id }}>
+
+                                        <div class="form-group">
+                                            <textarea
+                                            id="body"
+                                            class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}"
+                                            rows="1"
+                                            name="body"
+                                            ></textarea>
+
+                                            @foreach($errors->get('body') as $message)
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @endforeach
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <hr>
 
                             <!-- Comment with nested comments -->
-                            {{-- <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Commenter Name</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                </div>
-                            </div> --}}
+                            @if (count($comment->replies) > 0)
+
+                                @foreach ($comment->replies as $reply)
+
+                                    @if ($reply->is_active === 1)
+
+                                        <div class="media mt-2">
+                                            <img class="d-flex mr-3 rounded-circle" height="50" src="{{ $reply->photo }}" alt="">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">{{ $reply->author }}
+                                                    <small class="text-secondary">{{ $reply->created_at->diffForHumans() }}</small>
+                                                </h5>
+                                                {{ $reply->body }}
+                                            </div>
+
+                                        </div>
+                                        <hr>
+
+                                        <div class="reply-container">
+                                            <button class="toggle-reply btn btn-primary float-right">Reply</button>
+
+                                            <div class="reply col-sm-10">
+                                                <!--  nested comment form  -->
+                                                <form action="{{ route('replies.createReply') }}" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <input type="hidden" name="comment_id" value={{ $post->id }}>
+
+                                                    <div class="form-group">
+                                                        <textarea
+                                                        id="body"
+                                                        class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}"
+                                                        rows="1"
+                                                        name="body"
+                                                        ></textarea>
+
+                                                        @foreach($errors->get('body') as $message)
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @endforeach
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 @endif
             @endforeach
-
-
-
-
         @endif
+    @endsection
+
+    @section('scripts')
+        <script>
+            $(".reply-container .toggle-reply").click(function() {
+                $(this).next().slideToggle("slow");
+            });
+        </script>
+        <script>
+            $(".comment-reply-container .toggle-comment-reply").click(function() {
+                $(this).next().slideToggle("slow");
+            });
+        </script>
     @endsection
 
 </x-home-master>
