@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.comment-reply {
+    display: none;
+}
+
+.reply {
+    display: none;
+}
+
+.toggle-comment-reply {
+    position: relative;
+    top: -50px;
+}
+
+.toggle-reply {
+    position: relative;
+    top: -60px;
+}

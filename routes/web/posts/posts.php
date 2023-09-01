@@ -9,6 +9,7 @@ Route::controller(PostController::class)
         Route::get('/', 'index')->name('post.index');
         Route::get('/create', 'create')->name('post.create');
         Route::get('/{post}/edit', 'edit')->name('post.edit');
+        Route::get('/{id}', 'show')->name('post.show');
 
         Route::post('/', 'store')->name('post.store');
 

@@ -8,20 +8,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\Category;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all()->sortByDesc('id');
+        $posts = Post::all();
         return view('admin.posts.index', compact('posts'));
     }
 
 
-    public function show(Post $post)
+    public function show($id)
     {
-        Post::findOrFail($post->id);
-        return view('blog-post', compact('post'));
+        $post = Post::findOrFail($id);
+        $comments = $post->comments;
+        return view('admin.posts.show', compact(['post', 'comments']));
     }
 
     public function create()
@@ -135,7 +137,6 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-
         $this->authorize('delete', $post);
 
         $this->deleteImage($post->post_image);
