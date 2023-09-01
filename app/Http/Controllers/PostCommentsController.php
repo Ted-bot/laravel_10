@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Post;
 
 class PostCommentsController extends Controller
 {
@@ -45,7 +46,7 @@ class PostCommentsController extends Controller
 
         Comment::create($data);
 
-        session()->flash('message-post-created', "comment has been been submitted!");
+        session()->flash('message-post-created', "comment has been been submitted and is awaiting moderation!");
 
         return back();
     }
@@ -55,7 +56,11 @@ class PostCommentsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::query()->findOrfail($id);
+
+        $comments = $post->comments;
+
+        return view('admin.comments.show', compact('comments'));
     }
 
     /**
@@ -71,7 +76,13 @@ class PostCommentsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'is_active' => 'required'
+        ]);
+
+        Comment::query()->findOrFail($id)->update($request->all());
+
+        return back();
     }
 
     /**
@@ -79,6 +90,8 @@ class PostCommentsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Comment::query()->findOrFail($id)->delete();
+
+        return back();
     }
 }

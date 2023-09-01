@@ -1,10 +1,6 @@
 <x-home-master>
     @section('content')
 
-    @if (session()->has('message-post-created'))
-           <div class="alert alert-success" role="alert">{{ session()->get('message-post-created') }}</div>
-     @endif
-
         <!-- Title -->
         <h1 class="mt-4">{{ $post->title }}</h1>
 
@@ -29,6 +25,10 @@
         <!-- Post Content -->
         <p>{{ $post->body }}</p>
         <hr>
+
+        @if (session()->has('message-post-created'))
+            <div class="alert alert-success" role="alert">{{ session()->get('message-post-created') }}</div>
+    @endif
 
         <!-- Comments Form -->
         <div class="card my-4">
@@ -62,14 +62,15 @@
         @if(count($comments) > 0)
             @foreach ($comments as $comment )
                 <!-- Single Comment -->
-                <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle" width="50" height="50" src="{{ $comment->photo }}" alt="">
-                    <div class="media-body">
+                @if ($comment->is_active === 1)
+                    <div class="media mb-4">
+                        <img class="d-flex mr-3 rounded-circle" width="50" height="50" src="{{ $comment->photo }}" alt="">
+                        <div class="media-body">
 
-                        <h5 class="mt-0">{{ $comment->author }}</h5>
-                        {{ $comment->body }}
+                            <h5 class="mt-0">{{ $comment->author }}</h5>
+                            {{ $comment->body }}
 
-                        <!-- Comment with nested comments -->
+                            <!-- Comment with nested comments -->
                             {{-- <div class="media mt-4">
                                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                                 <div class="media-body">
@@ -77,8 +78,9 @@
                                     Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                                 </div>
                             </div> --}}
+                        </div>
                     </div>
-                </div>
+                @endif
             @endforeach
 
 

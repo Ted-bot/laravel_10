@@ -22,9 +22,10 @@
                     <tr>
                       <th>Id</th>
                       <th>Owner</th>
+                      <th>Image</th>
                       <th>Title</th>
                       <th>Category</th>
-                      <th>Image</th>
+                      <th>view comments</th>
                       <th>Posted at</th>
                       <th>Updated at</th>
                       <th>Delete</th>
@@ -34,9 +35,10 @@
                     <tr>
                         <th>Id</th>
                         <th>Owner</th>
+                        <th>Image</th>
                         <th>Title</th>
                         <th>Category</th>
-                        <th>Image</th>
+                        <th>view comments</th>
                         <th>Posted at</th>
                         <th>Updated at</th>
                         <th>Delete</th>
@@ -46,15 +48,24 @@
                   <tbody>
 
                     @foreach($posts as $post)
-
                         <tr>
                             <td>{{ $post->id }}</td>
-                            <td>{{ $post->user->{"name"} ?? '' }}</td>
-                            <td><a href="{{ route('post.edit', $post->id) }}">{{ $post->title }}</a></td>
-                            <td>{{ $post->category->name ?? '' }}</td>
+                            <td>{{ $post->user->name ?? '' }}</td>
                             <td>
-                                <img height="40px" width="60px" src="{{ $post->post_image }}" alt="">
+                                <a href="{{ route('post.show', $post->id) }}">
+                                    <img height="40px" width="60px" src="{{ $post->post_image }}" alt="">
+                                </a>
                             </td>
+                            <td><a href="{{ route('post.edit', $post->id) }}">{{ $post->title }}</a></td>
+                            <td><?php
+                                ($post->category_id === NULL) ?
+                                print('uncatogorized') :
+                                $post->categories()->each(function($category){
+                                    print($category->name);
+                                });
+                                ?>
+                            </td>
+                            <td><a href="{{ route('comments.show', $post->id) }}">View Comments</a></td>
                             <td>{{ $post->created_at->diffForHumans() }}</td>
                             <td>{{ $post->updated_at->diffForHumans() }}</td>
                             <td>
