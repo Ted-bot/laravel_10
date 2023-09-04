@@ -13,10 +13,12 @@ Route::controller(AdminsController::class)
 
 Route::middleware('auth')
 ->group(function() {
-    Route::resource('admin/categories', 'AdminCategoriesController');
+    Route::resource('/admin/categories', 'AdminCategoriesController');
     Route::resource('/admin/comments', 'PostCommentsController');
     Route::resource('/admin/comments/replies', 'CommentRepliesController');
     Route::post('/admin/comments/replies', 'CommentRepliesController@show');
     Route::post('/admin/comments/replies', 'CommentRepliesController@createReply')->name('replies.createReply');
+    Route::resource('/calendar', 'GoogleCalendarController');
 });
+
 

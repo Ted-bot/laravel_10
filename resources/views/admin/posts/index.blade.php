@@ -89,7 +89,12 @@
             </div>
           </div>
 
-          {{-- {{ $posts->links(); }} --}}
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-5 pagination-wrapper">
+
+                {{ $posts->links('vendor.pagination.custom') }}
+            </div>
+          </div>
 
     @endsection
 
