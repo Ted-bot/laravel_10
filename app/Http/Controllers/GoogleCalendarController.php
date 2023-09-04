@@ -29,14 +29,16 @@ class GoogleCalendarController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validat([
+        // return 'hallo';
+        $request->validate([
             'name' => 'required|min:2',
             'description' => 'nullable',
-            'startDateTime' => 'required',
-            'endDateTime' => 'required'
+            'meeting_date' => 'required',
+            'meeting_time' => 'required'
         ]);
 
-        $startTime = Carbon::parse($request->input('meeting_date'). ' ' . $request->input('meeting_time'));
+        $startTime = Carbon::parse($request->input('meeting_date'). ' ' . $request->input('meeting_time'), 'Europe/Amsterdam');
+
         $endTime = (clone $startTime)->addhour();
 
         $event = new Event();

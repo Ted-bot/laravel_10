@@ -1,7 +1,11 @@
 <x-admin-master>
     @section('content')
 
-        <form action="route('calendar.store')" method='POST'>
+    @if(session()->has('message-post-calendar'))
+        <div class="alert alert-danger" role="alert">{{ session()->get('message-post-calendar') }}</div>
+    @endif
+
+        <form action="{{ route('calendar.store') }}" method='POST'>
             @csrf
             @method('POST')
             <div class="form-group">
