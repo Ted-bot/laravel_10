@@ -13,7 +13,9 @@ class GoogleCalendarController extends Controller
      */
     public function index()
     {
-        return view('admin.calendar.index');
+        $events = Event::get();
+
+        return view('admin.calendar.index', compact('events'));
     }
 
     /**
@@ -21,7 +23,7 @@ class GoogleCalendarController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.calendar.create');
     }
 
     /**
@@ -29,7 +31,6 @@ class GoogleCalendarController extends Controller
      */
     public function store(Request $request)
     {
-        // return 'hallo';
         $request->validate([
             'name' => 'required|min:2',
             'description' => 'nullable',
@@ -43,8 +44,8 @@ class GoogleCalendarController extends Controller
 
         $event = new Event();
 
-        $event->name = 'A new event';
-        $event->description = 'Event description';
+        $event->name = $request->name;
+        $event->description = $request->description;
         $event->startDateTime = $startTime;
         $event->endDateTime = $endTime;
 
@@ -52,7 +53,7 @@ class GoogleCalendarController extends Controller
 
         session()->flash('message-post-calendar', "A new appointment has been created on");
 
-        return back();
+        return redirect()->route('calendar.index');
     }
 
     /**
@@ -68,7 +69,8 @@ class GoogleCalendarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $event = Event::find($id);
+        return view('admin.calendar.edit', compact('event'));
     }
 
     /**
@@ -76,7 +78,29 @@ class GoogleCalendarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:2',
+            'description' => 'nullable',
+            'meeting_date' => 'required',
+            'meeting_time' => 'required'
+        ]);
+
+        $startTime = Carbon::parse($request->input('meeting_date'). ' ' . $request->input('meeting_time'), 'Europe/Amsterdam');
+
+        $endTime = (clone $startTime)->addhour();
+
+        $event = Event::find($id);
+
+        $event->name = $request->name;
+        $event->description = $request->description;
+        $event->startDateTime = $startTime;
+        $event->endDateTime = $endTime;
+
+        $event->save();
+
+        session()->flash('message-post-calendar', "A appointment has been updated");
+
+        return redirect()->route('calendar.index');
     }
 
     /**
@@ -84,6 +108,10 @@ class GoogleCalendarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Event::find($id)->delete();
+
+        session()->flash('message-delete-event', "Event has been deleted");
+
+        return back();
     }
 }
