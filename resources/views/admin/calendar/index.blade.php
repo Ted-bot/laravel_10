@@ -47,6 +47,7 @@
             <button type="button" class="btn btn-primary btn-lg btn-block">Add new Event</button>
         </a>
         <br>
+        <hr>
 
         <h2>Calendar</h2>
         <iframe src="https://calendar.google.com/calendar/embed?src=33168eb407dda1a92b661d4b50e9bae4f93e356f668d769a05f3d030a84edd2e%40group.calendar.google.com&ctz=Europe%2FAmsterdam" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
