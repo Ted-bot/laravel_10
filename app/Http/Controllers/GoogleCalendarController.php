@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\GoogleCalendarCreateEventRequest;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use App\Jobs\CreateGoogleCalendarEventJob;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Services\GoogleCalendarService;
 
 class GoogleCalendarController extends Controller
 {
@@ -29,27 +33,20 @@ class GoogleCalendarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(GoogleCalendarCreateEventRequest $request)
     {
-        $request->validate([
-            'name' => 'required|min:2',
-            'description' => 'nullable',
-            'meeting_date' => 'required',
-            'meeting_time' => 'required'
-        ]);
-
-        $startTime = Carbon::parse($request->input('meeting_date'). ' ' . $request->input('meeting_time'), 'Europe/Amsterdam');
+        $startTime = (new GoogleCalendarService)->parseMeeting($request->input('meeting_date'),$request->input('meeting_time') );
 
         $endTime = (clone $startTime)->addhour();
 
-        $event = new Event();
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'startDateTime' => $startTime,
+            'endDateTime' => $endTime,
+        ];
 
-        $event->name = $request->name;
-        $event->description = $request->description;
-        $event->startDateTime = $startTime;
-        $event->endDateTime = $endTime;
-
-        $event->save();
+        dispatch(new CreateGoogleCalendarEventJob($data));
 
         session()->flash('message-post-calendar', "A new appointment has been created on");
 
